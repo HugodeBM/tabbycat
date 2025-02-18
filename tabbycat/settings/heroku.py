@@ -79,6 +79,10 @@ CACHES = {
             # "CONNECTION_POOL_KWARGS": {"max_connections": 5} # See above
             "SOCKET_CONNECT_TIMEOUT": 5,
             "SOCKET_TIMEOUT": 60,
+            "CONNECTION_POOL_KWARGS": {
+                "ssl_cert_reqs": None,
+                #"max_connections": 5,
+            },
         },
     },
 }
@@ -87,7 +91,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [environ.get('REDIS_URL')],
+           "hosts": [{'address': environ.get('REDIS_URL'), "ssl_cert_reqs": None}],
             # Remove channels from groups after 3 hours
             # This matches websocket_timeout in Daphne
             "group_expiry": 10800,
